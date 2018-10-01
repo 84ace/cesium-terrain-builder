@@ -342,15 +342,7 @@ GDALTiler::createRasterTile(GDALDataset *dataset, double (&adfGeoTransform)[6]) 
   GDALDatasetH hWrkSrcDS = getOverviewDataset(hSrcDS, GDALGenImgProjTransform, transformerArg);
   if (hWrkSrcDS == NULL) {
     hWrkSrcDS = psWarpOptions->hSrcDS = hSrcDS;
-  } else {
-    // We need to recreate the transform when operating on an overview.
-    GDALDestroyGenImgProjTransformer( transformerArg );
-    transformerArg = GDALCreateGenImgProjTransformer2( hWrkSrcDS, NULL, transformOptions.List() );
-    if(transformerArg == NULL) {
-      GDALDestroyWarpOptions(psWarpOptions);
-      throw CTBException("Could not create overview image to image transformer");
-    }
-  }
+  } 
 
   // Specify the destination geotransform
   GDALSetGenImgProjTransformerDstGeoTransform(transformerArg, adfGeoTransform );
